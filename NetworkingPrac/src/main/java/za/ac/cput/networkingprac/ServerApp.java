@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.util.Scanner;
 
 /**
  *
@@ -50,13 +51,25 @@ public class ServerApp {
             ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
             out.flush();
             ObjectInputStream in = new ObjectInputStream(client.getInputStream());
-
+            Scanner scn = new Scanner(System.in);
+            
             // Step 2: communicate
             String msg="";
-            while (!msg.equals("exit")) {
+            String response="";
+            
+            while (true) {
+                
                 msg = (String) in.readObject();
                 System.out.println("From CLIENT>> " + msg);
-                out.writeObject("Hello " + msg);
+                
+                if(msg.equals("exit")){
+                    System.out.println("Exiting. Closing Connection");
+                    break;
+                }
+                
+                System.out.print("From SERVER>> ");
+                response=scn.nextLine();
+                out.writeObject(response);
                 out.flush();
             }
 

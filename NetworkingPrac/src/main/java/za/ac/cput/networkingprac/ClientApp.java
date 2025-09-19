@@ -40,11 +40,18 @@ public class ClientApp {
             // Step 2: communicate
             
             String msg="";
-            while (!msg.equals("exit")) {
+            String response="";
+            
+            while (true) {
                 msg = sc.nextLine();
                 out.writeObject(msg);
                 out.flush();
-                String response = (String) in.readObject();
+                
+                if(msg.equals("exit")){
+                    System.out.println("Exiting chat");
+                    break;
+                }
+                response = (String) in.readObject();
                 System.out.println("From SERVER>> " + response);
             }
 
